@@ -10,8 +10,8 @@
 
       this.style.display = 'block';
       this.style.width = '100%';
-      this.style.height = '8500px';
-      this.style.minHeight = '8500px';
+      this.style.height = 'auto';
+      this.style.minHeight = '0';
       this.style.background = '#071f22';
       this.style.overflow = 'visible';
 
