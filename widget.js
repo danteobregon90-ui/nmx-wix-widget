@@ -6,29 +6,34 @@
 
   class NmxProjectShowcase extends HTMLElement {
     connectedCallback() {
-      if (this.shadowRoot) return;
+      if (this.dataset.nmxReady === 'true') return;
 
-      const root = this.attachShadow({ mode: 'open' });
+      this.classList.add('nmx-widget');
+      this.style.display = 'block';
+      this.style.width = '100%';
+      this.style.minHeight = '8500px';
+      this.style.background = '#071f22';
+
       const style = document.createElement('style');
-      style.textContent = STYLES;
+      style.textContent = STYLES.replaceAll(':host', '.nmx-widget');
       const page = document.createElement('div');
       page.innerHTML = CONTENT;
-      root.append(style, page);
+      this.replaceChildren(style, page);
 
-      root.addEventListener('click', (event) => {
+      this.addEventListener('click', (event) => {
         const anchor = event.composedPath().find(
           (node) => node instanceof HTMLAnchorElement,
         );
         const href = anchor?.getAttribute('href');
         if (!href?.startsWith('#')) return;
 
-        const target = root.querySelector(href);
+        const target = this.querySelector(href);
         if (!target) return;
         event.preventDefault();
         target.scrollIntoView({ behavior: 'smooth', block: 'start' });
       });
 
-      this.setAttribute('data-nmx-ready', 'true');
+      this.dataset.nmxReady = 'true';
     }
   }
 
